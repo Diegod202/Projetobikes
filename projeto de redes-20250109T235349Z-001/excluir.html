@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Bicicleta</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Excluir Bicicleta</h1>
+
+        <a href="index.html">Voltar para a página inicial</a>
+
+        <form action="http://localhost:8000/bikes" method="DELETE">
+            <label for="bike_id">ID da Bicicleta:</label>
+            <input type="number" id="bike_id" name="bike_id" required>
+
+            <button type="submit">Excluir Bicicleta</button>
+        </form>
+    </div>
+
+</body>
+</html>
