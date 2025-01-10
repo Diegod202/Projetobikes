@@ -108,3 +108,109 @@ async def delete_bike(bike_id: int):
                 "data": deleted_bike
             }
     raise HTTPException(status_code=404, detail="Bike not found.")
+
+
+from typing import List
+
+from fastapi import FastAPI, Form, HTTPException, Query
+
+app = FastAPI()
+
+# In-memory storage for usuarios
+usuarios = []
+
+@app.get("/usuarios")
+async def list_usuarios():
+    """
+    Retrieve the list of usuarios.
+    """
+    return {
+        "status": "success",
+        "message": "Usuarios retrieved successfully.",
+        "data": usuarios
+    }
+
+@app.get("/usuarios/{usuario_id}")
+async def get_usuario_by_id(usuario_id: int):
+    """
+    Retrieve a usuario by its ID.
+    """
+    for usuario in usuarios:
+        if usuario["id"] == usuario_id:
+            return {
+                "status": "success",
+                "message": "Usuario retrieved successfully.",
+                "data": usuario
+            }
+    raise HTTPException(status_code=404, detail="Usuario not found.")
+
+@app.get("/usuarios_search")
+async def search_usuarios_by_name(name: str = Query(...)):
+    """
+    Search usuarios by name.
+    """
+    matching_usuarios = [usuario for usuario in usuarios if name.lower() in usuario["name"].lower()]
+    if matching_usuarios:
+        return {
+            "status": "success",
+            "message": "Usuarios retrieved successfully.",
+            "data": matching_usuarios
+        }
+    raise HTTPException(status_code=404, detail="No usuarios found with the given name.")
+
+@app.post("/usuarios")
+async def create_usuario(
+    name: str = Form(...),
+    email: str = Form(...),
+    telefone: str = Form(...),
+):
+    """
+    Add a new usuario to the list.
+    """
+    usuario = {
+        "id": len(usuarios) + 1,  # Generate a simple ID
+        "name": name,
+        "email": email,
+        "telefone": telefone
+    }
+    usuarios.append(usuario)
+    return {
+        "status": "success",
+        "message": "Usuario added successfully.",
+        "data": usuario
+    }
+
+@app.put("/usuarios/{usuario_id}")
+async def update_usuario(
+    usuario_id: int,
+    name: str = Form(...),
+    email: str = Form(...),
+    telefone: str = Form(...),
+):
+    """
+    Update a usuario's details by its ID.
+    """
+    for usuario in usuarios:
+        if usuario["id"] == usuario_id:
+            usuario.update({"name": name, "email": email, "telefone": telefone})
+            return {
+                "status": "success",
+                "message": "Usuario updated successfully.",
+                "data": usuario
+            }
+    raise HTTPException(status_code=404, detail="Usuario not found.")
+
+@app.delete("/usuarios")
+async def delete_usuario(usuario_id: int):
+    """
+    Delete a usuario by its ID.
+    """
+    for index, usuario in enumerate(usuarios):
+        if usuario["id"] == usuario_id:
+            deleted_usuario = usuarios.pop(index)
+            return {
+                "status": "success",
+                "message": "Usuario deleted successfully.",
+                "data": deleted_usuario
+            }
+    raise HTTPException(status_code=404, detail="Usuario not found.")
