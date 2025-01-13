@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atualizar User</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Atualizar User</h1>
+
+        <a href="/index.html">Voltar para a página inicial</a>
+
+        <form action="http://localhost:8000/usuarios/{usuario_id}" method="POST">
+            <label for="usuario_id">ID do Usuário:</label>
+            <input type="number" id="usuario_id" name="usuario_id" required>
+
+            <label for="name">Nome:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="telefone">Telefone:</label>
+            <input type="number" step="0.01" id="telefone" name="telefone" required>
+
+            <button type="submit">Atualizar User</button>
+        </form>
+    </div>
+
+</body>
+</html>
